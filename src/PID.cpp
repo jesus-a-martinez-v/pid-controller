@@ -1,4 +1,6 @@
 #include "PID.h"
+#include <time.h>
+#include <iostream>
 
 using namespace std;
 
@@ -7,18 +9,33 @@ PID::PID() {}
 PID::~PID() {}
 
 void PID::Init(double Kp, double Ki, double Kd) {
-	Kp = Kp;
-	Ki = Ki;
-	Kd = Kd;
+	this->Kp = Kp;
+	this->Ki = Ki;
+	this->Kd = Kd;
+
+	this->p_error = 0;
+	this->i_error = 0;
+	this->d_error = 0;
+
+	previous_time = 0;
 }
 
 void PID::UpdateError(double cte) {
-	p_error = - Kp * cte;
-	i_error = - Ki * (i_error + cte);
-	d_error = - Kd * (cte - d_error);
+    double current_time = clock();
+    double dt = (current_time - previous_time)/CLOCKS_PER_SEC;
+    previous_time = current_time;
+
+    std::cout << dt << std::endl;
+
+	d_error = (cte - p_error) / dt; // Because p_error is actually the previous cte
+	p_error = cte;
+	i_error += cte * dt;
+	// p_error = - Kp * cte;
+	// i_error = - Ki * (i_error + cte);
+	// d_error = - Kd * (cte - d_error);
 }
 
 double PID::TotalError() {
-	return p_error + i_error + d_error;
+	return Kp * p_error + Ki * i_error + Kd * d_error;
 }
 
