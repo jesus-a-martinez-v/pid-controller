@@ -1,5 +1,5 @@
-# CarND-Controls-PID
-Project implemented as part of the Udacity's Self-Driving Car Engineer Nanodegree Program
+PID Controller
+Project implemented as part of the Udacity's Self-Driving Car Engineer Nanodegree Program.
 
 ---
 
