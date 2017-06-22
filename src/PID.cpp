@@ -16,12 +16,20 @@ void PID::Init(double Kp, double Ki, double Kd) {
 	this->p_error = 0;
 	this->i_error = 0;
 	this->d_error = 0;
+
+	this->previous_time = 0;
 }
 
 void PID::UpdateError(double cte) {
-	d_error = cte - p_error; // Because p_error is actually the previous cte
+	double current_time = clock();
+    double dt = (current_time - previous_time)/CLOCKS_PER_SEC;
+    previous_time = current_time;
+
+    std::cout << dt << std::endl;
+
+	d_error = (cte - p_error) / dt; // Because p_error is actually the previous cte
 	p_error = cte;
-	i_error += cte;
+	i_error += cte * dt;
 }
 
 double PID::TotalError() {

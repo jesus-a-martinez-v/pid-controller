@@ -19,12 +19,13 @@ std::string hasData(std::string s) {
   auto found_null = s.find("null");
   auto b1 = s.find_first_of("[");
   auto b2 = s.find_last_of("]");
+
   if (found_null != std::string::npos) {
     return "";
-  }
-  else if (b1 != std::string::npos && b2 != std::string::npos) {
+  } else if (b1 != std::string::npos && b2 != std::string::npos) {
     return s.substr(b1, b2 - b1 + 1);
   }
+
   return "";
 }
 
@@ -87,12 +88,9 @@ int main(int argc, char *argv[])
   // doesn't compile :-(
   h.onHttpRequest([](uWS::HttpResponse *res, uWS::HttpRequest req, char *data, size_t, size_t) {
     const std::string s = "<h1>Hello world!</h1>";
-    if (req.getUrl().valueLength == 1)
-    {
+    if (req.getUrl().valueLength == 1) {
       res->end(s.data(), s.length());
-    }
-    else
-    {
+    } else {
       // i guess this should be done more gracefully?
       res->end(nullptr, 0);
     }

@@ -2,6 +2,8 @@
 #define PID_H
 
 class PID {
+private:
+  double previous_time;
 public:
   /*
   * Errors
