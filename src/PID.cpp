@@ -22,12 +22,9 @@ void PID::UpdateError(double cte) {
 	d_error = cte - p_error; // Because p_error is actually the previous cte
 	p_error = cte;
 	i_error += cte;
-	// p_error = - Kp * cte;
-	// i_error = - Ki * (i_error + cte);
-	// d_error = - Kd * (cte - d_error);
 }
 
 double PID::TotalError() {
-	return Kp * p_error + Ki * i_error + Kd * d_error;
+	return -Kp * p_error - Ki * i_error - Kd * d_error;
 }
 

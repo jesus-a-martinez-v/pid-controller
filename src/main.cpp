@@ -34,8 +34,10 @@ int main(int argc, char *argv[])
 
   PID pid;
 
-  // TODO: Use Twiddle or other method to determine parameters
-  pid.Init(atof(argv[0]), atof(argv[1]), atof(argv[2]));
+  double initial_kp = atof(argv[0]);
+  double initial_ki = atof(argv[1]);
+  double initial_kd = atof(argv[2]);
+  pid.Init(initial_kp, initial_ki, initial_kd);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -54,7 +56,7 @@ int main(int argc, char *argv[])
           double angle = std::stod(j[1]["steering_angle"].get<std::string>());
           double steer_value;
           /*
-          * TODO: Calcuate steering value here, remember the steering value is
+          * TODO: Calculate steering value here, remember the steering value is
           * [-1, 1].
           * NOTE: Feel free to play around with the throttle and speed. Maybe use
           * another PID controller to control the speed!
